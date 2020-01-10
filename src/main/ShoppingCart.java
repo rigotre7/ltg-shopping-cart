@@ -32,13 +32,21 @@ public class ShoppingCart {
 	private static BigDecimal calculatePrice(String[] groceryItems) {
 		
 		BigDecimal total = BigDecimal.ZERO;
+		int appleCount = 0;
+		int orangeCount = 0;
 		
 		// Aggregate the price in a simple loop
 		for (String item : groceryItems) {
 			if (item.toLowerCase().trim().equals("apple")) {
-				total = total.add(new BigDecimal(APPLE_PRICE));
+				// Skip pricing if we're dealing with the 2nd apple (buy one, get one)
+				if (++appleCount % 2 != 0) {
+					total = total.add(new BigDecimal(APPLE_PRICE));
+				}
 			} else if (item.toLowerCase().trim().equals("orange")) {
-				total = total.add(new BigDecimal(ORANGE_PRICE));
+				// Skip pricing if we're dealing with the 3rd apple (3 for price of 2)
+				if (++orangeCount % 3 != 0) {
+					total = total.add(new BigDecimal(ORANGE_PRICE));
+				}
 			}
 		}
 		
